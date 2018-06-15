@@ -5,13 +5,59 @@
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="./assets/css/index.css">
 	<script src="./assets/js/anime.min.js"></script>
-	<script src="./assets/js/index.js"></script>
 </head>
 <body>
-	<div id="cssSelector">
-	  <div class="line">
-	    <div class="square el"></div>
-	  </div>
-	</div>
+	<h1>Simple Test with Animate.js</h1>
+	<ul>
+		<li>
+			<div id="e1" class="block">
+				<div class="elements">
+	    			<div class="square el"></div>
+	    		</div>
+			</div>
+			<script>
+				var animations1 = anime({
+				  targets: '#e1 .el',
+				  delay: 100,
+				  translateX: '100%',
+				  autoplay: false
+				});
+				document.getElementById("e1").addEventListener("click", function(e) {
+					animations1.restart();
+				});
+			</script>
+		</li>
+		
+		
+		<li>
+			<div id="e2" class="block">
+				<div class="elements">
+	    			<div class="square el"></div>
+	    		</div>
+			</div>
+			<script>
+				var animations2 = anime({
+				  targets: '#e2 .el',
+				  delay: 100,
+				  duration: 1500,
+				  translateX: '100px',
+				  rotate: '2turn',
+				  scale: '*=2',
+				  background: '#FFF',
+				  autoplay: false
+				});
+				document.getElementById("e2").addEventListener("click", function(e) {
+					animations2.restart();
+				});
+			</script>
+		</li>
+		
+		<li>
+			bbbbb
+		</li>
+		<li>
+			aaaaa
+		</li>
+	</ul>
 </body>
 </html>
