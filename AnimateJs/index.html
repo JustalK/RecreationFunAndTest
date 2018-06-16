@@ -7,7 +7,7 @@
 	<script src="./assets/js/anime.min.js"></script>
 </head>
 <body>
-	<h1>Simple Test with Anime.js</h1>
+	<h1>Simple test with anime.js</h1>
 	<ul>
 		<li>
 			<div id="e1" class="block">
@@ -144,10 +144,10 @@
 				  targets: '#e6 .el',
 				  delay: 100,
 				  duration: function(target) {
-					  return Math.random()*1000;
+					  return anime.random(100,1000);
 				  },
 				  translateX: function(target) {
-					  return Math.random()*300+"px";
+					  return anime.random(100,500)+"px";
 				  },
 				  autoplay: false
 				});
@@ -156,6 +156,131 @@
 				});
 			</script>
 		</li>
+				
+		<li>
+			<div id="e7" class="block">
+				<div class="elements">
+	    			<div class="square el"></div>
+	    		</div>
+	    		<h2>Ordering transformation on the same properties</h2>
+			</div>
+			<script>
+				var animations7 = anime({
+				  targets: '#e7 .el',
+				  delay: 100,
+				  translateX: [
+				  	{ value: 300, duration: 1000, elasticity: 0},
+				  	{ value: 0, duration: 1500, delay: 1000, elasticity: 0 }
+				  ],
+				  scaleX: [
+				  	{ value: 4, duration: 100, easing: 'easeOutExpo'},
+				  	{ value: 1, duration: 900, delay: 100, elasticity: 300}
+				  ],
+				  autoplay: false
+				});
+				document.getElementById("e7").addEventListener("click", function(e) {
+					animations7.restart();
+				});
+			</script>
+		</li>
+				
+		<li>
+			<div id="e8" class="block">
+				<div class="elements">
+	    			<div class="square el"></div>
+	    			<div class="square el2"></div>
+	    		</div>
+	    		<h2>Managing a timeline asynchronous</h2>
+			</div>
+			<script>
+				var timelineParameters = anime.timeline({
+					direction: 'alternate',
+					autoplay: false
+				});
+				timelineParameters
+					.add({
+						targets: '#e8 .el',
+						translateX: [
+							{ value: 100},
+							{ value: 200}
+						],
+						duration: 1000
+					})
+					.add({
+						targets: '#e8 .el2',
+						translateX: [
+							{ value: 100},
+							{ value: 200}
+						],
+						duration: 2000,
+						offset: 200
+					})
+				document.getElementById("e8").addEventListener("click", function(e) {
+					timelineParameters.restart();
+				});
+			</script>
+		</li>
+				
+		<li>
+			<div id="e9" class="block">
+				<div class="elements">
+	    			<div class="square el"></div>
+	    			<div class="square el2"></div>
+	    		</div>
+	    		<h2>Managing a timeline synchronous</h2>
+			</div>
+			<script>
+				var timelineParameters2 = anime.timeline({
+					direction: 'alternate',
+					autoplay: false
+				});
+				timelineParameters2
+					.add({
+						targets: '#e9 .el',
+						translateX: [
+							{ value: 100},
+							{ value: 200}
+						],
+						duration: 1000
+					})
+					.add({
+						targets: '#e9 .el2',
+						translateX: [
+							{ value: 100},
+							{ value: 200}
+						],
+						duration: 2000,
+						offset: '+=200'
+					})
+				document.getElementById("e9").addEventListener("click", function(e) {
+					timelineParameters2.restart();
+				});
+			</script>
+		</li>
 	</ul>
+	<div>
+		<div id="e10" class="lines"> <svg viewBox="-110 -10 280 100">
+	      <g fill="none" fill-rule="evenodd" stroke="white" stroke-width="0.5" class="lines">
+	        <path d="M 15,24.736328 V 57 h 12.763672 v -0.132812 -4.13086 h -8 v -28 z" stroke-dasharray="150" style="stroke-dashoffset: 150px;"></path>
+	        <path d="m 40.529167,24.736328 v 28 h -7.736328 v -7 H 28.029167 V 57 h 17.263672 v -0.132812 -32.13086 z" stroke-dasharray="15" style="stroke-dashoffset: 150px;"></path>
+	      </g>
+	    </svg> 
+	    <h2>Drawing from a SVG paths</h2>
+	    </div>
+	    <script>
+	    	var lineDrawing = anime({
+	    	  targets: '#e10 path',
+	    	  strokeDashoffset: [anime.setDashoffset, 0],
+	    	  easing: 'easeInOutSine',
+	    	  duration: 3000,
+	    	  delay: function(el, i) { return i * 500 },
+	    	  direction: 'normal',
+	    	  autoplay: false
+	    	});
+			document.getElementById("e10").addEventListener("click", function(e) {
+				lineDrawing.restart();
+			});
+	    </script>
+	</div>
 </body>
 </html>

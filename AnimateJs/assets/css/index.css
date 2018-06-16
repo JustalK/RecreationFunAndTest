@@ -40,8 +40,18 @@ h2 {
     font-size: 12px;
 }
 
+.lines {
+	background: #42486b;
+	margin-bottom: 200px; 
+	cursor: pointer;
+	position: relative;
+}
+
 ul {
-	list-style: none;	
+	list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 ul li {
@@ -51,8 +61,10 @@ ul li {
     background: #42486b;
     margin: 20px;
     transition: all 0.2s;
+    cursor: pointer;
 }
 
+.lines:hover,
 ul li:hover {
     background: #818bc7;
 }
@@ -65,6 +77,7 @@ input {
     background: #42486b;
     color: white;
 }
+
 
 .block {
 	padding: 30px;
