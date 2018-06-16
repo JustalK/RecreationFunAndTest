@@ -259,7 +259,7 @@
 		</li>
 	</ul>
 	<div>
-		<div id="e10" class="lines"> <svg viewBox="-110 -10 280 100">
+		<div id="e10" class="lines"> <svg viewBox="-110 0 280 100">
 	      <g fill="none" fill-rule="evenodd" stroke="white" stroke-width="0.5" class="lines">
 	        <path d="M 15,24.736328 V 57 h 12.763672 v -0.132812 -4.13086 h -8 v -28 z" stroke-dasharray="150" style="stroke-dashoffset: 150px;"></path>
 	        <path d="m 40.529167,24.736328 v 28 h -7.736328 v -7 H 28.029167 V 57 h 17.263672 v -0.132812 -32.13086 z" stroke-dasharray="15" style="stroke-dashoffset: 150px;"></path>
@@ -282,5 +282,133 @@
 			});
 	    </script>
 	</div>
+	
+	<div>
+		<div id="e11" class="lines">
+			<div class="cadre">
+				<div class="bleft"></div>
+				<div class="bright"></div>
+				<div class="btop"></div>
+				<div class="bbottom"></div>
+				<div class="corner crt"></div>
+				<div class="corner clt"></div>
+				<div class="corner clb"></div>
+				<div class="corner crb"></div>
+			</div>
+			<div class="inside-cadre"></div>
+			<h2>Mix everything</h2>
+		</div>
+		<script>
+			var rev = false;
+			var timelineParameters3 = anime.timeline({
+				direction: 'normal',
+				autoplay: false
+			});
+			timelineParameters3
+				.add({
+					targets: '#e11 .cadre',
+					scale: 1.2,
+					elasticity: 500,
+					duration: 1000
+				})
+				.add({
+					targets: '#e11 .bleft',
+					translateX: ['-100%','0%'],
+					easing: 'easeInOutExpo',
+					duration: 500,
+					offset: '-=1000'
+				})
+				.add({
+					targets: '#e11 .bright',
+					translateX: ['100%','0%'],
+					easing: 'easeInOutExpo',
+					duration: 500,
+					offset: '-=1000'
+				})
+				.add({
+					targets: '#e11 .btop',
+					translateY: ['-100%','0%'],
+					easing: 'easeInOutExpo',
+					duration: 500,
+					offset: '-=1000'
+				})
+				.add({
+					targets: '#e11 .bbottom',
+					translateY: ['100%','0%'],
+					easing: 'easeInOutExpo',
+					duration: 500,
+					offset: '-=1000'
+				})
+				.add({
+					targets: '#e11 .crt',
+					translateX: ['100%',0],
+					translateY: [
+						{ value: ['-100%',0] },
+						{ value: [0,'229px'], delay: 100 }
+					],
+					duration: 1000,
+					easing: 'easeInOutExpo',
+					offset: '-=850'
+				})
+				.add({
+					targets: '#e11 .clt',
+					translateY: ['-100%',0],
+					translateX: [
+						{ value: ['-100%',0] },
+						{ value: [0,'229px'], delay: 100 }
+					],
+					duration: 1000,
+					easing: 'easeInOutExpo',
+					offset: '-=1050'
+				})
+				.add({
+					targets: '#e11 .crb',
+					translateY: ['100%',0],
+					translateX: [
+						{ value: ['100%',0] },
+						{ value: [0,'-229px'], delay: 100 }
+					],
+					duration: 1000,
+					easing: 'easeInOutExpo',
+					offset: '-=1150'
+				})
+				.add({
+					targets: '#e11 .clb',
+					translateX: ['-100%',0],
+					translateY: [
+						{ value: ['100%',0] },
+						{ value: [0,'-229px'], delay: 100 }
+					],
+					duration: 1000,
+					easing: 'easeInOutExpo',
+					offset: '-=1125'
+				})
+			document.getElementById("e11").addEventListener("click", function(e) {
+				timelineParameters3.direction = rev ? 'reverse' : 'normal';
+				timelineParameters3.restart();
+				rev = !rev;
+			});
+		</script>
+	</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

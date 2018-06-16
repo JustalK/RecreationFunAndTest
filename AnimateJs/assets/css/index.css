@@ -42,9 +42,10 @@ h2 {
 
 .lines {
 	background: #42486b;
-	margin-bottom: 200px; 
-	cursor: pointer;
-	position: relative;
+    margin-bottom: 30px;
+    cursor: pointer;
+    position: relative;
+    height: 500px;
 }
 
 ul {
@@ -92,3 +93,107 @@ input {
     top: 50%;
     width: calc(100% - 60px);
 }
+
+/*
+* Some test for the mixing
+*/
+
+.cadre {
+	width: 250px;
+    height: 250px;
+    border: 1px solid white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.inside-cadre {
+	width: 250px;
+    height: 250px;
+    background: black;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+}
+
+.bbottom,
+.btop {
+	position: absolute;
+    left: 0;
+    top: 0;
+    height: calc(252px * 0.2 / 2 - 4px);
+    width: 100%;
+    background: #993333bd;
+    transform: translateY(-100%);
+    transform-origin: top;	
+}
+
+.bbottom {
+	top: initial;
+	bottom: 0;
+	transform: translateY(100%);
+    transform-origin: bottom;
+}
+
+.bright,
+.bleft {
+	position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: calc(252px * 0.2 / 2 - 4px);
+    background: #993333bd;
+    transform: translateX(-100%);
+    transform-origin: left;
+}
+
+.bright {
+	right: 0;
+	left: initial;
+	transform: translateX(100%);
+    transform-origin: right;
+}
+
+.corner {
+	position: absolute;
+    width: calc(252px * 0.2 / 2 - 4px);
+    height: calc(252px * 0.2 / 2 - 4px);
+    background: white;
+}
+
+.crt {
+	right: 0;
+    top: 0;
+    transform-origin: right top;
+    transform: translate(100%,-100%);
+}
+.clt {
+	left: 0;
+    top: 0;
+    transform: translate(-100%,-100%);
+}
+.crb {
+	right: 0;
+    bottom: 0;
+    transform: translate(100%,100%);
+}
+.clb {
+	left: 0;
+    bottom: 0;
+    transform: translate(-100%,100%);
+}
+
+
+
+
+
+
+
+
