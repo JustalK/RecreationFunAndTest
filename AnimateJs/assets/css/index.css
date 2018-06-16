@@ -14,6 +14,22 @@ h1 {
     color: #dedede;
 }
 
+h2 {
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #595e80;
+    left: 0;
+    margin: 0;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    font-weight: 300;
+    font-size: 18px;
+    border-top: 1px solid #111116;
+    color: #dedede;
+}
+
 .square {
 	pointer-events: none;
     position: relative;
@@ -39,6 +55,15 @@ ul li {
 
 ul li:hover {
     background: #818bc7;
+}
+
+input {
+	width: 100%;
+    height: 30px;
+    border: 1px solid white;
+    text-align: center;
+    background: #42486b;
+    color: white;
 }
 
 .block {

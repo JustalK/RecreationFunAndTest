@@ -7,13 +7,14 @@
 	<script src="./assets/js/anime.min.js"></script>
 </head>
 <body>
-	<h1>Simple Test with Animate.js</h1>
+	<h1>Simple Test with Anime.js</h1>
 	<ul>
 		<li>
 			<div id="e1" class="block">
 				<div class="elements">
 	    			<div class="square el"></div>
 	    		</div>
+				<h2>Simple translation</h2>
 			</div>
 			<script>
 				var animations1 = anime({
@@ -34,6 +35,7 @@
 				<div class="elements">
 	    			<div class="square el"></div>
 	    		</div>
+	    		<h2>Multiple css animations at the same time</h2>
 			</div>
 			<script>
 				var animations2 = anime({
@@ -53,10 +55,106 @@
 		</li>
 		
 		<li>
-			bbbbb
+			<div id="e3" class="block">
+				<div class="elements">
+	    			<div class="square el"></div>
+	    		</div>
+	    		<h2>Change shape</h2>
+			</div>
+			<script>
+				var animations3 = anime({
+				  targets: '#e3 .el',
+				  delay: 100,
+				  duration: 1500,
+				  translateX: '100px',
+				  borderRadius: '50%',
+				  autoplay: false
+				});
+				document.getElementById("e3").addEventListener("click", function(e) {
+					animations3.restart();
+				});
+			</script>
 		</li>
+		
 		<li>
-			aaaaa
+			<div id="e4" class="block">
+				<div class="elements">
+	    			<input value="0">
+	    		</div>
+	    		<h2>Count to 1000</h2>
+			</div>
+			<script>
+				var animations4 = anime({
+				  targets: '#e4 input',
+				  value: 1000,
+				  round: 1,
+				  autoplay: false,
+				  easing: 'easeInOutExpo' // Do not forget the easing if else, that does not work
+				});
+				document.getElementById("e4").addEventListener("click", function(e) {
+					animations4.restart();
+				});
+			</script>
+		</li>
+		
+		<li>
+			<div id="e5" class="block">
+				<div class="elements">
+	    			<div class="square el"></div>
+	    		</div>
+	    		<h2>Multiple css animation one after an other</h2>
+			</div>
+			<script>
+				var animations5 = anime({
+				  targets: '#e5 .el',
+				  autoplay: false,
+				  translateX: {
+					  value: '200px',
+					  duration: 500,
+					  delay: 100,
+					  offset: 0,
+					  elasticity: 500
+				  },
+				  rotate: {
+					  value: 720,
+					  duration: 1000,
+					  delay: 800
+				  },
+				  scale: {
+					  value: 2,
+					  duration: 1000,
+					  delay: 1500
+				  }
+				});
+				document.getElementById("e5").addEventListener("click", function(e) {
+					animations5.restart();
+				});
+			</script>
+		</li>
+				
+		<li>
+			<div id="e6" class="block">
+				<div class="elements">
+	    			<div class="square el"></div>
+	    		</div>
+	    		<h2>Using function for the property parameters (new animation at each relaod)</h2>
+			</div>
+			<script>
+				var animations6 = anime({
+				  targets: '#e6 .el',
+				  delay: 100,
+				  duration: function(target) {
+					  return Math.random()*1000;
+				  },
+				  translateX: function(target) {
+					  return Math.random()*300+"px";
+				  },
+				  autoplay: false
+				});
+				document.getElementById("e6").addEventListener("click", function(e) {
+					animations6.restart();
+				});
+			</script>
 		</li>
 	</ul>
 </body>
