@@ -190,6 +190,131 @@ input {
     transform: translate(-100%,100%);
 }
 
+/*
+* Some test for the mixing 2
+*/
+
+.littleb {
+	position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    height: 250px;
+    margin: auto;
+    border: 1px solid white;
+    overflow: hidden;
+}
+
+.bigcb {
+	width: 400px;
+    height: 400px;
+    background: url(./../../imgs/FRAME1.jpg);
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.littlec {
+    width: 250px;
+    height: 250px;
+    display: inline-block;
+    border: 1px solid white;
+    transform: rotateZ(45deg);
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+}
+
+.bigc {
+    width: 300px;
+    height: 300px;
+    display: inline-block;
+    border: 1px solid white;
+    position: relative;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+
+.bigct {
+    width: 400px;
+    height: 400px;
+    background: url(./../../imgs/FRAME1.jpg);
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%) rotateZ(-45deg);
+}
+
+.littlef {
+	width: 250px;
+    height: 250px;
+    display: inline-block;
+    border: 1px solid white;
+    transform: rotateZ(45deg);
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+}
+
+.littlee2,
+.littlee {
+	width: 250px;
+    height: 250px;
+    display: inline-block;
+    border: 1px solid white;
+    transform: rotateZ(67.5deg);
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    background: white;
+}
+
+.littlee2 {
+    transform: rotateZ(22.5deg);
+}
+
+.littlee .bigct {
+	transform: translate(-50%,-50%) rotateZ(-67.5deg);
+}
+
+.littlee2 .bigct {
+	transform: translate(-50%,-50%) rotateZ(-22.5deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -390,6 +390,62 @@
 			});
 		</script>
 	</div>
+	
+	<div>
+		<div id="e12" class="lines">
+			<div class="littlee">
+				<div class="bigc">
+					<div class="bigct"></div>
+				</div>
+			</div>
+			<div class="littlee2">
+				<div class="bigc">
+					<div class="bigct"></div>
+				</div>
+			</div>
+			<div class="littlec">
+				<div class="bigc">
+					<div class="bigct"></div>
+				</div>
+			</div>
+			<div class="littleb">
+				<div class="bigcb">
+				</div>
+			</div>
+			<div class="littlef"></div>
+			<h2>Mix everything</h2>
+		</div>
+		<script>
+			var timelineParameters4 = anime.timeline({
+				direction: 'normal',
+				autoplay: false
+			});
+			timelineParameters4
+			.add({
+				targets: ['#e12 .littlec','#e12 .littlef'],
+				rotateZ: [0,45],
+				elasticity: 600,
+				duration: 1000
+			})
+			.add({
+				targets: ['#e12 .littlee'],
+				rotateZ: [0,67.5],
+				elasticity: 600,
+				duration: 2000,
+				offset: 100
+			})
+			.add({
+				targets: ['#e12 .littlee2'],
+				rotateZ: [0,22.5],
+				elasticity: 600,
+				duration: 2000,
+				offset: 100
+			})
+			document.getElementById("e12").addEventListener("click", function(e) {
+				timelineParameters4.restart();
+			});
+		</script>
+	</div>
 </body>
 </html>
 
