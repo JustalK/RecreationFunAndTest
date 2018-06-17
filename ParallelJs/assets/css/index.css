@@ -1,0 +1,33 @@
+html,
+body {
+	width: calc(100% - 100px);
+	height: 100%;
+	margin:0;
+	padding:50px;
+	background: #111116;
+}
+
+h1 {
+    color: #dedede;
+}
+
+table {
+	width: 100%;
+	text-align: center;
+}
+
+td {
+	width: 50%;
+	background: #42486b;
+	color: white;
+}
+
+th {
+	background: #20243a;
+	color: white;
+	height: 50px;
+}
+
+button {
+	margin: 10px;
+}
