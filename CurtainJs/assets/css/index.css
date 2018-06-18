@@ -1,0 +1,19 @@
+@CHARSET "ISO-8859-1";
+
+html,
+body {
+	width: calc(100% - 100px);
+	height: 100%;
+	margin:0;
+	padding:50px;
+	background: #111116;
+}
+
+h1 {
+    color: #dedede;
+}
+
+#planes {
+	width: 500px;
+    height: 500px;
+}
