@@ -36,45 +36,77 @@ const reduceRight = (x, fn, rsl) => reduce(reverse(x), fn, rsl);
 const add = (x,y) => x + y;
 const partial = (fn, ...args) => (...newArgs) => fn(...args, ...newArgs);
 
+const spreadArg = (fn) => (...args) => fn(args);
+
 document.addEventListener("DOMContentLoaded", function() {
 	const defined = 'test';
 	console.log(def(defined));
 	
 	const array = [1,2,3,4,5,6,7,8,9];
-	console.log(addOne(...array));
-	console.log(...array);
-	console.log(reverse(array));
-	console.log(head(array));
-	console.log(tail(array));
-	console.log(last(array));
+//	console.log(addOne(...array));
+//	console.log(...array);
+//	console.log(reverse(array));
+//	console.log(head(array));
+//	console.log(tail(array));
+//	console.log(last(array));
 	
 	// Slice custom
 	const array2 = [1,2,4,5];
-	console.log(slice(array2,2,3));
-	console.log(isArray(array2));
+//	console.log(slice(array2,2,3));
+//	console.log(isArray(array2));
 	
 	const array3 = [11,22,33];
-	console.log(swap(array3,0,2));
-	console.log(even(2));
-	console.log(filter(array, even));
-	console.log(reject(array, even));
-	console.log(partition(array, even));
-	console.log(reduce([1,2,3], sum, 0));
-	console.log(reduce([4,5], flatten, [1,3]));
-	console.log(reduceRight([4,5,6], flatten, [1,3]));
+//	console.log(swap(array3,0,2));
+//	console.log(even(2));
+//	console.log(filter(array, even));
+//	console.log(reject(array, even));
+//	console.log(partition(array, even));
+//	console.log(reduce([1,2,3], sum, 0));
+//	console.log(reduce([4,5], flatten, [1,3]));
+//	console.log(reduceRight([4,5,6], flatten, [1,3]));
 	
 	const add5to = partial(add, 5)
-	console.log(add5to(10))
+//	console.log(add5to(10))
+	
+	// Spread a function
+	const add2 = ([x,...xs]) => def(x) ? parseInt(x + add2(xs)) : 0;
+//	console.log(add2([10,11,12,13,14,15]));
+	const spreadAdd2 = spreadArg(add2);
+//	console.log(spreadAdd2(10,11,12,13,14,15));
+	
 	
 	// Merge two array with ES6
 	const merge1 = [1,2,3,4,5];
 	const merge2 = [6,7,8,9];
-	console.log([...merge1,...merge2]);
+//	console.log([...merge1,...merge2]);
 	
 	// For of throught spread operator
 	const letters = "Latsuj";
-	console.log([...letters]);
-	for(var c of letters) console.log(c);
+//	console.log([...letters]);
+//	for(var c of letters) console.log(c);
+	
+	const pluck = (a,b) => b[a];
+	const product = {"test": 12}
+	console.log(pluck("test",product));
+	const getPrices = partial(pluck, 'test');
+	const products = [{"test":10},{"test":11}];
+	console.log(products.map(getPrices));
+	
+	const min = ([x, ...xs], rsl = 0, curr = 0) => def(x)
+		? x<rsl || curr === 0
+			? min(xs,x,curr+1)
+			: min(xs,rsl,curr+1)
+		: rsl;
+	console.log(min([]));
+	console.log(min([10,2,-2,4]));
+	
+	// Everything as a reduce
+	const length2 = xs => reduce(xs, (m,x) => m + 1, 0);
+	console.log(length2([1,2,3,4,5,9]));
+	const add3 = xs => reduce(xs, (m,x) => m + x, 0);
+	console.log(add3([1,2,3,5]));
+	const add5 = xs => xs.reduce((m,x) => m+x, 200);
+	console.log(add5([1,2,3,5]));
 });
 
 
