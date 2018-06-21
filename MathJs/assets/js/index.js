@@ -24,4 +24,20 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	// Testing with argument
 	console.log(math.format(math.chain(math.pi).divide(4).sin().square().done()));
+	
+	// Simplify an expression
+	console.log(math.simplify('x*y*(1+x)*x').toString());
+	
+	// Calculate a derivative
+	console.log(math.derivative('x^2','x').toString());
+	
+	// Playing with complex number
+	const a = math.complex(2, 3);
+	const b = math.complex(1,2);
+	console.log(a);
+	a.re = 10;
+	a.im = 20;
+	console.log(a);
+	console.log(math.add(a,b));
+	console.log(math.sqrt(-4));
 });
