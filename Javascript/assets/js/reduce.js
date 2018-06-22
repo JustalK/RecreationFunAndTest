@@ -178,3 +178,37 @@ const getWeight = a => a.weight
 const addWeight = (a,b) => parseInt(a+getWeight(b))
 const totalWeight = xs => xs.reduce((m,x) => addWeight(m,x),0);
 console.log(totalWeight(animals));
+
+// Google test
+// Put the words matching when you reverse them together
+const country = ['Abc', 'Londo', 'Odnol', 'Cba', 'zyu', 'illli'];
+const reverseStr = x => x.split('').reverse().join('').toLowerCase();
+const equalsCity = (a,xs) => xs.reduce((m,x) => reverseStr(x) === a.toLowerCase() && a !== x ? [...m,x] : m,[a]);
+const rslConcat = xs => xs.reduce((m,x) => [...m,...x],[]); 
+const equalsCities = xs => xs.reduce((m,x) => !rslConcat(m).includes(x) ? [...m,equalsCity(x,xs)] : m,[]);
+console.log(equalsCities(country));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
