@@ -120,3 +120,61 @@ function printHi() {
 	
 	console.log(phrase);
 }
+
+// Exercise with cats
+const cats = [
+  { name: 'Mojo',    months: 84 },
+  { name: 'Mao-Mao', months: 34 },
+  { name: 'Waffles', months: 4 },
+  { name: 'Pickles', months: 6 }
+]
+
+var kittens = []
+// typical poorly written `for loop`
+for (var i = 0; i < cats.length; i++) {
+  if (cats[i].months < 7) {
+    kittens.push(cats[i].name)
+  }
+}
+
+const kitten = xs => xs.reduce((m,x) => x.months<7 ? [...m,x.name] : m, []);
+//console.log(kittens)
+console.log(kitten(cats))
+
+// Exercice with remove and Double
+const arr2 = [2, -4, 6]
+const removeAndDouble = xs => xs.reduce((m,x) => x>=0 ? [...m,x*2]: m,[])
+console.log(removeAndDouble(arr2));
+
+// Exercise with animals
+const animals = [
+    {
+        "name": "cat",
+        "size": "small",
+        "weight": 5
+    },
+    {
+        "name": "dog",
+        "size": "small",
+        "weight": 10
+    },
+    {
+        "name": "lion",
+        "size": "medium",
+        "weight": 150
+    },
+    {
+        "name": "elephant",
+        "size": "big",
+        "weight": 5000
+    }
+]
+
+//let total_weight = 0;
+//for (let i = 0; i < animals.length; i++) {
+//    total_weigth += animals[i].weight
+//}
+const getWeight = a => a.weight
+const addWeight = (a,b) => parseInt(a+getWeight(b))
+const totalWeight = xs => xs.reduce((m,x) => addWeight(m,x),0);
+console.log(totalWeight(animals));
