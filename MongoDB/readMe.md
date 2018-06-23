@@ -56,3 +56,29 @@ For removing the objects matching the first argument
 db.<collectionName>.remove({namse: 'latsuj'})
 ```
 
+### Using the comparison
+
+All the comparison operators
+```
+$gt, $gte, $in, $lt, $lte, $ne, $nin
+```
+
+Examples
+```
+db.latsuj.find({numbers: {$gt: 8}})
+db.latsuj.find({numbers: {$nin: [15]}})
+db.latsuj.find({name: {$nin: ['latsuj']}})
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
