@@ -14,6 +14,18 @@ npm init
 npm install restify restify-plugins mongoose mongoose-timestamp mongoose-string-query restify-errors --save
 ```
 
+### Mongoose
+
+For doing something before the validate or save function
+```
+ArticleSchema.pre('validate', function(next) {});
+ArticleSchema.pre('save', function(next) {});
+```
+
+For doing something after
+```
+ArticleSchema.post('validate', function(err,doc,next) {});
+```
 
 
 

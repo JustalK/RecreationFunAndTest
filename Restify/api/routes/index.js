@@ -41,9 +41,7 @@ module.exports = function(server) {
 		let article = new Article(data);
 		
 		article.save(function(err) {
-			console.log(err);
 			if (err) {
-				console.error(err);
 				return next(new errors.InternalError(err.message));
 				next();
 			}
