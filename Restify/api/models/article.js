@@ -7,7 +7,7 @@ const ArticleSchema = new mongoose.Schema (
 		visible: Boolean,
 		title: {
 			type: String,
-			require: true,
+			required: true,
 			trim: true
 		},
 		text: String

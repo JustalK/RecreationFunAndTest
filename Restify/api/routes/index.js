@@ -8,31 +8,40 @@ const errors = require('restify-errors');
  */
 const Article = require('../models/article');
 
+const sendStatus = (res,status) => res.status(status)
+const sendErrors = (res,err) => res.send({errors: err});
+const sendContentType = (res,type) => res.contentType = type;
+const emptyReq = (req) => Object.keys(req.body).length === 0;
+const reqIsType = (req, type) => req.is(type);
+const sendMsg = (req,res,status,err,type) => {
+	sendContentType(res,type);
+	sendStatus(res,status);
+	sendErrors(res,err);
+}
+
 module.exports = function(server) {
 
-	// 
 	server.post('/articles', (req, res, next) => {
-		res.contentType = 'json';
 		
 		// If the request is not using the good hearder
-		if (!req.is('application/json')) {
-			res.status(501);
-			res.send({errors: "Expected application json"});
+		if (!reqIsType(req,'application/json')) {
+			sendMsg(req,res,501, "Expected application json","application/json");
 			return next();
 		}
 
+		// If the request is not empty
 		/**
-		if(!req.body) {
-			res.status(502);
-			res.send({errors: "There is no data send"});
+		if(emptyReq(req.body)) {
+			sendMsg(req,res,502, "There is no data send","application/json");
 			return next();
 		}
 		**/
+		
 		let data = req.body;
-
 		let article = new Article(data);
-		console.log(article);
+		
 		article.save(function(err) {
+			console.log(err);
 			if (err) {
 				console.error(err);
 				return next(new errors.InternalError(err.message));
