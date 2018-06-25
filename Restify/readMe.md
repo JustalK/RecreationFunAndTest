@@ -37,8 +37,13 @@ ArticleSchema.post('validate', function(doc,next) {});
 
 It's important to define my model at the end of the file, if else some middleware will not be taken. I dont know why for the moment, I still searching...
 
+### Mongoose - restify-errorrs plugins
+> <a href="https://www.npmjs.com/package/restify-errors">Documentation on errors</a>
 
-
+For writting an error
+```
+return next(new errors.<type of the errors>("message"));
+```
 
 
 

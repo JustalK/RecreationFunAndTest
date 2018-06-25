@@ -9,7 +9,7 @@ const errors = require('restify-errors');
 const Article = require('../models/article');
 const Comment = require('../models/comment');
 
-const sendStatus = (res,status) => res.status(status)
+const sendStatus = (res,status) => res.send(status);
 const sendErrors = (res,err) => res.send({errors: err});
 const sendContentType = (res,type) => res.contentType = type;
 const emptyReq = (req) => Object.keys(req.body).length === 0;
@@ -20,7 +20,7 @@ const sendMsg = (req,res,status,err,type) => {
 	sendErrors(res,err);
 }
 
-module.exports = function(server) {
+module.exports = (server) => {
 
 	// POST Method for the articles
 	server.post('/articles', (req, res, next) => {
@@ -35,20 +35,18 @@ module.exports = function(server) {
 		let data = req.body;
 		let article = new Article(data);
 		
-		article.save(function(err) {
+		article.save((err) => {
 			if (err) {
 				return next(new errors.InternalError(err.message));
-				next();
 			}
 
-			res.send(201);
+			sendStatus(res,201);
 			next();
 		});
 	});
 	
 	// POST Method for the comments
 	server.post('/comments/:article', (req, res, next) => {
-		
 		if (!reqIsType(req,'application/json')) {
 			sendMsg(req,res,404, "Expected application json","application/json");
 			return next();
@@ -59,7 +57,7 @@ module.exports = function(server) {
 		let article = req.params.article;
 		
 		// Look in the collection if one article correspond
-		Article.findOne({'title': article}, function(err,a) {
+		Article.findOne({'title': article}, (err,a) => {
 
 			// If the article does not exist, we create it
 			if(a==null) {
@@ -69,16 +67,58 @@ module.exports = function(server) {
 					title: article
 				});
 				// And we save it
-				articleDefault.save(function(err,as) {
+				articleDefault.save((err,as) => {
 					comment.article = as._id;
-					comment.save(function(err) {
-						//Things to do
-					});
+					comment.save();
 				});
+			} else {
+				comment.article = a._id;
+				comment.save();
 			}
 		});
 		
-		res.send(201);
+		sendStatus(res,201);
 		next();
 	});
+	
+	// Getter for the articles
+	server.get('/articles/all', (req, res, next) => {
+		Article.find({}, (err,articles) => {
+			if(err) {
+				return next(new errors.InvalidContentError(err.errors.name.message));
+			}
+			res.send(articles);
+			next();
+		});
+	});
+	
+	// Getter for the articles with the apiQuery
+	server.get('/articles/all2', (req, res, next) => {
+		Article.apiQuery(req.params, (err, articles) => {
+			if(err) {
+				return next(new errors.InvalidContentError(err.errors.name.message));
+			}
+			res.send(articles);
+			next();
+		});		
+	});
+	
 };  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
