@@ -14,20 +14,28 @@ npm init
 npm install restify restify-plugins mongoose mongoose-timestamp mongoose-string-query restify-errors --save
 ```
 
-### Mongoose
+### Mongoose - Middleware
+
+All the default hooks
+```
+init, validate, save, remove
+```
+> see <a href="http://mongoosejs.com/docs/middleware.html">Documentation on middleware</a>
 
 For doing something before the validate or save function
 ```
 ArticleSchema.pre('validate', function(next) {});
 ArticleSchema.pre('save', function(next) {});
 ```
+> Dont forget the return next()
 
 For doing something after
 ```
-ArticleSchema.post('validate', function(err,doc,next) {});
+ArticleSchema.post('validate', function(doc,next) {});
 ```
+> Dont forget the return next()
 
-
+It's important to define my model at the end of the file, if else some middleware will not be taken. I dont know why for the moment, I still searching...
 
 
 

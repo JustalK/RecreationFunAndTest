@@ -28,14 +28,6 @@ module.exports = function(server) {
 			sendMsg(req,res,501, "Expected application json","application/json");
 			return next();
 		}
-
-		// If the request is not empty
-		/**
-		if(emptyReq(req.body)) {
-			sendMsg(req,res,502, "There is no data send","application/json");
-			return next();
-		}
-		**/
 		
 		let data = req.body;
 		let article = new Article(data);
