@@ -103,6 +103,31 @@ module.exports = (server) => {
 		});		
 	});
 	
+	// Get comments and populate them for having the informations about the articles
+	server.get('/comments', (req, res, next) => {
+		Comment.find({}).populate('article').exec((err, comment) => {
+			res.send(200,comment);
+			next();
+		});
+	});
+	
+	// get all the comment and populate them with the title of the article
+	server.get('/comments/title', (req, res, next) => {
+		Comment.find({}).populate('article','title').exec((err, comment) => {
+			res.send(200,comment);
+			next();
+		});
+	});
+		
+	// Get all the comments from the parents by using the virtual populate
+	server.get('/articles/:title', (req, res, next) => {
+		Article.find({'title':req.params.title}).populate('comments').exec((err, article) => {
+			res.send(200,article);
+			next();
+		});
+	});
+	
+	
 };  
 
 

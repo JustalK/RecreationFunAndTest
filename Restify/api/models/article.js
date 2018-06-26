@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const mongooseStringQuery = require('mongoose-string-query');
 const timestamps = require('mongoose-timestamp');
+const Schema = mongoose.Schema;
 const ARTICLES_NUMBER_MAX = 10;
 
 const ArticleSchema = new mongoose.Schema (
@@ -18,13 +19,19 @@ const ArticleSchema = new mongoose.Schema (
 			trim: true,
 			default: 'No title'
 		},
-		text: String
-	},
-	{
-		minimize: true,
-		strict: true
+		text: String,
+		link : [Schema.Types.Mixed]
 	}
 );
+
+ArticleSchema.virtual('comments', {
+	ref: 'Comment',
+	localField: '_id',
+	foreignField: 'article'
+});
+
+ArticleSchema.set('toObject', { virtuals: true });
+ArticleSchema.set('toJSON', { virtuals: true });
 
 // For adding the two field with the updateAt and createAt
 ArticleSchema.plugin(timestamps);
