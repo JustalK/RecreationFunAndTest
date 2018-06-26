@@ -13,11 +13,12 @@ const ArticleSchema = new mongoose.Schema (
 			enum: ['starting','working','finished'],
 			default: 'starting'
 		},
-		title: {
+		t: {
 			type: String,
 			required: true,
 			trim: true,
-			default: 'No title'
+			default: 'No title',
+			alias: 'title'
 		},
 		text: String,
 		link : [Schema.Types.Mixed]
@@ -30,6 +31,10 @@ ArticleSchema.virtual('comments', {
 	ref: 'Comment',
 	localField: '_id',
 	foreignField: 'article'
+});
+// We can also create a virtual getter for printing the status with the title
+ArticleSchema.virtual('stitle').get(function() {
+	return this.status+" - "+this.title;
 });
 ArticleSchema.set('toObject', { virtuals: true });
 ArticleSchema.set('toJSON', { virtuals: true });

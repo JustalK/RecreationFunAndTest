@@ -26,6 +26,32 @@ A good thing is to create static method inside the model that use them
 ArticleSchema.statics.findAll = function(cb) {}
 ```
 
+### Virtuals
+
+For using the virtual with toJSON or toObject, I have to set two variables
+```
+ArticleSchema.set('toObject', { virtuals: true });
+ArticleSchema.set('toJSON', { virtuals: true });
+```
+
+For creating a virtual for populating
+```
+ArticleSchema.virtual('comments', {
+	ref: 'Comment',
+	localField: '_id',
+	foreignField: 'article'
+});
+```
+
+For creating a virtual getter
+```
+ArticleSchema.virtual('stitle').get(function() {
+	return this.status+" - "+this.title;
+});
+```
+
+> Aliases is good for saving bandwidth - reducing the name of properties
+
 ### Mongoose - Middleware
 
 All the default hooks
