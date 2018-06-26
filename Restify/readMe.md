@@ -14,6 +14,18 @@ npm init
 npm install restify restify-plugins mongoose mongoose-timestamp mongoose-string-query restify-errors --save
 ```
 
+### Methods
+
+Simply add a methods inside the models
+```
+ArticleSchema.methods.reset = function(cb) {}
+```
+
+A good thing is to create static method inside the model that use them
+```
+ArticleSchema.statics.findAll = function(cb) {}
+```
+
 ### Mongoose - Middleware
 
 All the default hooks

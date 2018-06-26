@@ -24,6 +24,17 @@ const commentSchema = new mongoose.Schema(
 commentSchema.plugin(timestamps);
 commentSchema.plugin(mongooseStringQuery);
 
+// Comments static methods for find every comment with population with article
+commentSchema.statics.findAllWithPopulate = function(cb) {
+	return this.find({}, cb).populate('article');
+}
+
+commentSchema.statics.findAllWithPopulateOnlyTitle = function(cb) {
+	return this.find({}, cb).populate('article', 'title');
+}
+
+
+
 const Comment = mongoose.model("Comment", commentSchema);
 module.exports = Comment; 
 

@@ -24,14 +24,27 @@ const ArticleSchema = new mongoose.Schema (
 	}
 );
 
+// Virtual element for populating with the comments associated with this article
+// Be careful ! The set under is important if else that does not work
 ArticleSchema.virtual('comments', {
 	ref: 'Comment',
 	localField: '_id',
 	foreignField: 'article'
 });
-
 ArticleSchema.set('toObject', { virtuals: true });
 ArticleSchema.set('toJSON', { virtuals: true });
+
+// Testing how a simple method work
+ArticleSchema.methods.reset = function() {
+	this.title = 'No title';
+	this.status = 'starting';
+	return this;
+};
+// Usefull static methods
+ArticleSchema.statics.findAll = function(cb) {
+	return this.find({}, cb);
+}
+
 
 // For adding the two field with the updateAt and createAt
 ArticleSchema.plugin(timestamps);

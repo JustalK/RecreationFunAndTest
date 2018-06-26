@@ -103,17 +103,30 @@ module.exports = (server) => {
 		});		
 	});
 	
+	// Getter for the articles with the apiQuery
+	server.get('/articles/all3', (req, res, next) => {
+		Article.findAll((err, articles) => {
+			if(err) return next(new errors.InvalidContentError(err.errors.name.message));
+			res.send(articles);
+			next();
+		});		
+	});
+	
 	// Get comments and populate them for having the informations about the articles
+	// By using a static method
 	server.get('/comments', (req, res, next) => {
-		Comment.find({}).populate('article').exec((err, comment) => {
+		Comment.findAllWithPopulate((err, comment) => {
+			if(err) return next(new errors.InvalidContentError(err.errors.name.message));
 			res.send(200,comment);
 			next();
 		});
 	});
 	
 	// get all the comment and populate them with the title of the article
+	// By using a static method
 	server.get('/comments/title', (req, res, next) => {
-		Comment.find({}).populate('article','title').exec((err, comment) => {
+		Comment.findAllWithPopulateOnlyTitle((err, comment) => {
+			if(err) return next(new errors.InvalidContentError(err.errors.name.message));
 			res.send(200,comment);
 			next();
 		});
