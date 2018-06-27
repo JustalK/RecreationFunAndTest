@@ -114,7 +114,13 @@ module.exports = (server) => {
 	
 	// Getter for the articles with a prepared query
 	server.get('/articles/all4', (req, res, next) => {
-		
+		var query = Article.find({});
+		query.select('title status');
+		query.exec((err, articles) => {
+			if(err) return next(new errors.InvalidContentError(err.errors.name.message));
+			res.send(200, articles);
+			next();
+		});
 	});
 	
 	// Get comments and populate them for having the informations about the articles
@@ -154,11 +160,30 @@ module.exports = (server) => {
 		})
 	});
 	
+	// Get the article with a particular id with a static method
 	server.get('/articles/id/:id', (req, res, next) => {
 		Article.findById(req.params.id, (err, article) => {
 			res.send(200,article);
 			next();
 		});
+	});
+	
+	// Get all the comments with an unknown author by using a cursor
+	server.get('/comments/stream', (req, res, next) => {
+		// Creating a cursor stream
+		var cursor = Comment.find({'author' : 'Unknown'}).cursor();
+		var tmp = [];
+		
+		// Iterate on the cursor
+		cursor.on('data',(doc) => {
+			tmp.push(doc);
+		});
+		
+		// Once the cursor is done
+		cursor.on('close',() => {
+			res.send(200,tmp);
+			next();
+		})
 	});
 };  
 

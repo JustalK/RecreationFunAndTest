@@ -52,6 +52,15 @@ ArticleSchema.virtual('stitle').get(function() {
 
 > Aliases is good for saving bandwidth - reducing the name of properties
 
+### Mongoose - Cursor
+
+A cursor is usefull for iterate on a queries
+```
+var cursor = Comment.find({}).cursor();
+cursor.on('data',(doc) => {});
+cursor.on('close',() => {})
+```
+
 ### Mongoose - Middleware
 
 All the default hooks
