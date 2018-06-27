@@ -7,7 +7,9 @@ const errors = require('restify-errors');
  * Model Schema
  */
 const Article = require('../models/article');
-const Comment = require('../models/comment');
+var comments = require('../models/comment');
+const Comment = comments.Comment;
+const Badcomment = comments.Badcomment;
 
 const sendStatus = (res,status) => res.send(status);
 const sendErrors = (res,err) => res.send({errors: err});
@@ -79,6 +81,22 @@ module.exports = (server) => {
 		
 		sendStatus(res,201);
 		next();
+	});
+	
+	server.post('/badcomments', (req, res, next) => {
+		if (!reqIsType(req,'application/json')) {
+			sendMsg(req,res,404, "Expected application json","application/json");
+			return next();
+		}
+		
+		let data = req.body;
+		let comment = new Badcomment(data);
+		
+		comment.save((err) => {
+			if(err) return next(new errors.InternalError(err.message));
+			sendStatus(res,201);
+			next();
+		});
 	});
 	
 	// Getter for the articles

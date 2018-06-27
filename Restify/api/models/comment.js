@@ -20,6 +20,7 @@ const commentSchema = new mongoose.Schema(
 		}
 	},
 	{
+		discriminatorKey: 'kind',
 		strict: true
 	}
 );
@@ -44,5 +45,28 @@ commentSchema.statics.findAllOfLastHour = function(cb) {
 
 
 const Comment = mongoose.model("Comment", commentSchema);
-module.exports = Comment; 
+
+// Discriminator
+const Badcomment = Comment.discriminator('Badcomment', 
+		new mongoose.Schema(
+				{
+					user: String
+				},
+				{
+					discriminatorKey: 'kind'
+				}
+		)
+);
+
+module.exports = { Comment, Badcomment};
+
+
+
+
+
+
+
+
+
+
 
