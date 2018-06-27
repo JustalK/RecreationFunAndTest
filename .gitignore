@@ -22,3 +22,4 @@ $RECYCLE.BIN/
 # Operating System Files
 # =========================
 Restify/api/node_modules
+Restify/api2/node_modules

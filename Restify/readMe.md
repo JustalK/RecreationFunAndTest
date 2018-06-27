@@ -10,9 +10,12 @@ My favorite tools for building an API are
 ### Some starters
 
 ```
-npm init
+npm init 
+npm init --yes
 npm install restify restify-plugins mongoose mongoose-timestamp mongoose-string-query restify-errors --save
 ```
+> Just add yes if you want to skip every questions
+> Add --save at the end of install for adding the package in the package.json
 
 ### Methods
 
