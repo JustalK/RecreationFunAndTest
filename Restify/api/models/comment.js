@@ -18,6 +18,9 @@ const commentSchema = new mongoose.Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'Article'
 		}
+	},
+	{
+		strict: true
 	}
 );
 
@@ -31,6 +34,11 @@ commentSchema.statics.findAllWithPopulate = function(cb) {
 
 commentSchema.statics.findAllWithPopulateOnlyTitle = function(cb) {
 	return this.find({}, cb).populate('article', 'title');
+}
+
+// Get all the comment of the last hours
+commentSchema.statics.findAllOfLastHour = function(cb) {
+	return this.find({}, cb).where('createdAt').gt(new Date(Date.now() - 60*60*1000)).populate('article', 'title');
 }
 
 

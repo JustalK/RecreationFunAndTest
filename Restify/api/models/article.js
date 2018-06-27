@@ -17,11 +17,16 @@ const ArticleSchema = new mongoose.Schema (
 			type: String,
 			required: true,
 			trim: true,
+			minlength: 0,
+			maxlength: 10,
 			default: 'No title',
 			alias: 'title'
 		},
 		text: String,
 		link : [Schema.Types.Mixed]
+	},
+	{
+		strict: true
 	}
 );
 
@@ -50,6 +55,9 @@ ArticleSchema.statics.findAll = function(cb) {
 	return this.find({}, cb);
 }
 
+ArticleSchema.statics.findById = function(id,cb) {
+	return this.find({'_id':id},cb);
+}
 
 // For adding the two field with the updateAt and createAt
 ArticleSchema.plugin(timestamps);

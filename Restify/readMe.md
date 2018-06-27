@@ -66,6 +66,7 @@ ArticleSchema.pre('validate', function(next) {});
 ArticleSchema.pre('save', function(next) {});
 ```
 > Dont forget the return next()
+> If there are subdocument, the hook are call in a V style. I mean pre('validate') of parents, then pre('validate') of children, then we go back up with pre('save') of children and finally pre('save') of parent
 
 For doing something after
 ```

@@ -112,6 +112,11 @@ module.exports = (server) => {
 		});		
 	});
 	
+	// Getter for the articles with a prepared query
+	server.get('/articles/all4', (req, res, next) => {
+		
+	});
+	
 	// Get comments and populate them for having the informations about the articles
 	// By using a static method
 	server.get('/comments', (req, res, next) => {
@@ -140,7 +145,21 @@ module.exports = (server) => {
 		});
 	});
 	
+	// Get the comments of the last hours using where clause on date in a static method
+	server.get('/comments/hours', (req, res, next) => {
+		Comment.findAllOfLastHour((err, comments) => {
+			if(err) return next(new errors.InvalidContentError(err.errors.name.message));
+			res.send(200, comments);
+			next();
+		})
+	});
 	
+	server.get('/articles/id/:id', (req, res, next) => {
+		Article.findById(req.params.id, (err, article) => {
+			res.send(200,article);
+			next();
+		});
+	});
 };  
 
 
