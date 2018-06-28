@@ -38,7 +38,8 @@ module.exports = function(ctx) {
     	}
     	
     	let data = {
-    		name: req.params.name
+    		name: req.params.name,
+    		note: req.params.note,
     	}
     	
     	user.insertOne(data).then(doc => {
@@ -73,7 +74,6 @@ module.exports = function(ctx) {
     		
     		next();
     	})
-    	
     });
     
     // Getting all the articles throught the article query find
@@ -120,6 +120,41 @@ module.exports = function(ctx) {
     	next();
     });
 
+    /**
+    server.get('/article4', (req, res, next) => {
+    	article.mapReduce( function() {
+    		emit(this.title)
+    	},
+    	function(key, value) {
+    		return value;
+    	},
+    	{
+    		out: 'order_totals'
+    	}).then((docs) => {
+    		console.log(docs);
+    	})
+    	next();
+    });
+    **/
+    
+    // Using an aggregate for adding a new virtual properties to the result
+    server.get('/users', (req, res, next) => {
+    	user.aggregate( [
+        {
+        	$addFields: {
+        		totalNote: { $sum: "$note" },
+        		totalNoteSecond: { $sum: "$note" }
+        	}
+        }
+    	] ).toArray((err,docs) => {
+    		if(err) res.send(500, "Error on articles");
+    		res.send(200, docs);
+    	})
+    	
+    	next();
+    });
+    
+    
     /**
      * Update
      */

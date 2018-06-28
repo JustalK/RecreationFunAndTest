@@ -14,6 +14,14 @@ module.exports = function(db) {
 					name: {
 						bsonType: "string",
 						description: "Must be a string and is required"
+					},
+					notes: {
+						bsonType: ["array"],
+						minItems: 0,
+						maxItems: 10,
+						items: {
+							bsonType: "int"
+						}
 					}
 				}
 			}
