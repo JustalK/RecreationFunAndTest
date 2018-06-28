@@ -3,32 +3,79 @@
 module.exports = function(ctx) {
 
     // extract context from passed in object
-    const db     = ctx.db,
-          server = ctx.server
+    const db     = ctx.db, server = ctx.server
 
     // assign collection to variable for further use
-    const collection = db.collection('todos')
-
-    /**
-     * Create
-     */
-    server.post('/todos', (req, res, next) => {
-
-        // extract data from body and add timestamps
-        const data = Object.assign({}, req.body, {
-            created: new Date(),
-            updated: new Date()
-        })
-
-        // insert one object into todos collection
-        collection.insertOne(data)
-            .then(doc => res.send(200, doc.ops[0]))
-            .catch(err => res.send(500, err))
-
-        next()
-
-    })
-
+    const collection = db.collection('todos');
+    const article = require('../models/article')(db);
+    const user = require('../models/user')(db);
+    
+    server.post('/article/:title', (req, res, next) => {
+    	if(!req.is('application/json')) {
+    		res.send(404,"Error not application/json");
+    		next();
+    	}
+    	
+    	let data = {
+    			title: req.params.title,
+                created: new Date(),
+                updated: new Date()
+    	}
+    	
+    	article.insertOne(data).then(doc => { 
+    		res.send(200, doc.ops[0]);
+    	}).catch(err => {
+    		res.send(500, err);
+    	})
+        
+    	next()
+    });
+    
+    server.post('/user/:name', (req, res, next) => {
+    	if(!req.is('application/json')) {
+    		res.send(404,"Error not application/json");
+    		next();
+    	}
+    	
+    	let data = {
+    		name: req.params.name
+    	}
+    	
+    	user.insertOne(data).then(doc => {
+    		res.send(200, doc.ops[0]);
+    	}).catch(err => {
+    		res.send(500, err);
+    	});
+    	
+    	next();
+    });
+    
+    server.post('/article/:title/:name', (req, res, next) => {
+    	if(!req.is('application/json')) {
+    		res.send(404,"Error not application/json");
+    		next();
+    	}
+    	
+    	user.findOne({name: req.params.name}, (err, rsl) => {
+    		
+    		let data = {
+        			title: req.params.title,
+        			writer: rsl,
+        			created: new Date(),
+        			updated: new Date()
+        	}
+    		
+    		article.insertOne(data).then(doc => { 
+    			res.send(200, doc.ops[0]);
+    		}).catch(err => {
+    			res.send(500, err);
+    		})
+    		
+    		next();
+    	})
+    	
+    });
+    
     /**
      * Read
      */
