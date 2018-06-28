@@ -16,7 +16,7 @@ module.exports = function(db) {
 						description: "Must be a string and is required"
 					},
 					writer: {
-						bsonType: "object"
+						bsonType: "objectId"
 					}
 				}
 			}

@@ -27,8 +27,8 @@ module.exports = function(ctx) {
     	}).catch(err => {
     		res.send(500, err);
     	})
-        
-    	next()
+    	
+    	next();
     });
     
     server.post('/user/:name', (req, res, next) => {
@@ -60,7 +60,7 @@ module.exports = function(ctx) {
     		
     		let data = {
         			title: req.params.title,
-        			writer: rsl,
+        			writer: rsl._id,
         			created: new Date(),
         			updated: new Date()
         	}
@@ -74,6 +74,37 @@ module.exports = function(ctx) {
     		next();
     	})
     	
+    });
+    
+    // Getting all the articles throught the article query find
+    // But if you look closely, you dont have the informations of the writer
+    server.get('/articles', (req, res, next) => {
+    	// there is a toArray for finding everything
+    	article.find({}).toArray( (err, docs) => {
+    		if(err) res.send(500, "Error on articles");
+    		res.send(200, docs);
+    	});
+    });
+    
+    // Getting all the articles with the informations of the writer
+    // I'm doing this by using an aggregate
+    server.get('/articles2', (req, res, next) => {
+    	article.aggregate([
+    		{
+    			$lookup:
+    				{
+    					from: 'user',
+    					localField: 'writer',
+    					foreignField: '_id',
+    					as: 'writer'
+    				}
+    		}
+    	]).toArray((err,docs) => {
+    		if(err) res.send(500, "Error on articles");
+    		res.send(200, docs);
+    	})
+    	
+    	next();
     });
     
     /**
