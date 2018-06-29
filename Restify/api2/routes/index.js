@@ -173,6 +173,224 @@ module.exports = function(ctx) {
     	next();
     });
     
+    // Creating a bucket for separating the documents by group of 
+    server.get('/users2', (req, res, next) => {
+    	user.aggregate( [
+    		{
+	    		$addFields: {
+	    			total: { $sum: "$notes" }
+	    		}
+    		},
+    		{
+	    		$bucket: {
+	    			groupBy: "$total",
+	    			boundaries: [0,10,20],
+	    			default: "others",
+	    			output: {
+	    				count: { $sum: 1 },
+	    				name: { $push: "$name" }
+	    			}
+	    		}
+    		}
+    	] ).toArray((err, docs) => {
+    		if(err) {    			
+    			res.send(500,err)
+    		} else {
+    			res.send(200,docs)
+    		}
+    	})
+    	
+    	next();
+    });
+    
+    // Creating x buckets where bucket is the exact number enter in the buckets property
+    server.get('/users3', (req, res, next) => {
+    	user.aggregate( [
+    		{
+    			$addFields: {
+    				total: { $sum: "$notes" }
+    			}
+    		},
+    		{
+    			$bucketAuto: {
+    				groupBy: "$total",
+    				buckets: 4,
+    				output: {
+	    				count: { $sum: 1 },
+	    				name: { $push: "$name" }
+	    			}
+    			}
+    		}
+    	] ).toArray((err, docs) => {
+    		if(err) {
+    			res.send(500, err);
+    		} else {
+    			res.send(200, docs);
+    		}
+    	})
+    	next();
+    });
+    
+    // For showing the statistique in the request
+    server.get('/users4', (req, res, next) => {
+    	user.aggregate( [ 
+    		{
+    			$collStats: {
+    				storageStats: {},
+    				count: {}
+    			}
+    		}
+    	] ).toArray((err, docs) => {
+    		if(err) {
+    			res.send(500, err);
+    		} else {
+    			res.send(200, docs)
+    		}
+    	})
+    	next();
+    });
+    
+    // For creating multiple group with differents function on them
+    server.get('/users5', (req, res, next) => {
+    	user.aggregate( [
+    		{
+    			$facet: {
+    				group1: [ {
+    	    			$addFields: {
+    	    				total: { $sum: "$notes" }
+    	    			}	
+    				} ], 
+    				group2: [ {
+    	    			$addFields: {
+    	    				total2: { $reduce: {
+    	    						input: "$notes",
+    	    						initialValue: 1,
+    	    						in: {
+    	    							$multiply: ["$$value", "$$this"]
+    	    						}
+    	    					}
+    	    				}
+    	    			}
+    				} ]
+    			}
+    		}
+    	] ).toArray((err, docs) => {
+    		if(err) {
+    			res.send(500,err)
+    		} else {
+    			res.send(200,docs)
+    		}
+    	})
+    	next();
+    });
+    
+    // Group aggregate (working like a distinct)
+    // But if you use a _id null, done the aggregate on all the documents
+    server.get('/users6', (req, res, next) => {
+    	user.aggregate( [ 
+    		{
+    		$group: {
+    			_id: null,
+    			total: { 
+    				$sum: { 
+    					$reduce: {
+    						input: "$notes",
+    						initialValue: 1,
+    						in: {
+    							$multiply: ["$$value", "$$this"]
+    						}
+    					}
+    				}
+    			}
+    		}
+    		}
+    	] ).toArray((err, docs) => {
+    		if(err) {
+    			res.send(500, err);
+    		} else {
+    			res.send(200, docs)
+    		}
+    	});
+    	next();
+    });
+    
+    // Limit sort and skip on a aggregate
+    // be careful the order of doing the queries $skip => $limit is different of $limit => $skip
+    server.get('/users7', (req, res, next) => {
+    	user.aggregate( [{$skip: 1},{$limit: 3},{$sort: { name: -1 } }] ).toArray( (err, docs) => {
+    		if(err) {
+    			res.send(500, err)
+    		} else {
+    			res.send(200, docs)
+    		}
+    	});
+    	next();
+    });
+    
+    // Testing the match on the name with a regex
+    server.get('/users8', (req, res, next) => {
+    	user.aggregate( [
+    		{ $match: { name: { $regex: ".*suj6.*"} } }
+    	]).toArray((err, docs) => {
+    		if(err) {
+    			res.send(500, err)
+    		} else {
+    			res.send(200, docs)
+    		}
+    	})
+    	next();
+    })
+    
+    // Create or replace the collection user2 with the value of the query
+    server.get('/users9', (req, res, next) => {
+    	user.aggregate( [
+    		{ $limit: 2},
+    		{ $out: 'user2' }
+    	] ).toArray((err, docs) => {
+    		if(err) {
+    			res.send(500, err)
+    		} else {
+    			res.send(200, docs)
+    		}
+    	});
+    	next();
+    });
+    
+    // Create a new document with only the value specified in the aggregate
+    // _id: 0 is just for excluing the default _id
+    server.get('/users10', (req, res, next) => {
+    	user.aggregate( [
+    		{
+	    		$project: {
+	    			_id: 0,
+	    			name: 1
+	    		}
+    		}
+    	] ).toArray((err, docs) => {
+    		if(err) {
+    			res.send(500, err)
+    		} else {
+    			res.send(200, docs)
+    		}
+    	});
+    	next();
+    })
+    
+    // Using unwind for decomposing an array into many documents
+    server.get('/users11', (req, res, next) => {
+    	user.aggregate( [ 
+    		{
+    			$unwind: "$notes"
+    		}
+    	] ).toArray((err, docs) => {
+    		if(err) {
+    			res.send(500, err)
+    		} else {
+    			res.send(200, docs)
+    		}
+    	});
+    	next();
+    })
     
     /**
      * Update
