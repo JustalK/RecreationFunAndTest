@@ -55,6 +55,50 @@ ArticleSchema.virtual('stitle').get(function() {
 
 > Aliases is good for saving bandwidth - reducing the name of properties
 
+### Restify - Order of search
+
+Plain route > route with arguments
+```
+1 : server.get('/articles/all', (req, res, next) => {});
+2 : server.get('/articles/:id', (req, res, next) => {});
+```
+> Restify search first in the plain route , so the one without any parameters.
+So if I use '/articles/all', it's always the route 1 that gonna be executed. If two routes have the same method declare, that throw an error.
+
+The order has an importance...If in my file, the route are written in this order
+```
+1 : server.get('/articles/:id1', (req, res, next) => {});
+2 : server.get('/articles/:id2-aze', (req, res, next) => {});
+```
+In this case, the route '/articles/test-az' exists, it's the route 1.
+But if I write them in this order
+```
+1 : server.get('/articles/:id2-aze', (req, res, next) => {});
+2 : server.get('/articles/:id1', (req, res, next) => {});
+```
+The route '/articles/test-az' does not exist
+
+# Mongodb
+
+### aggregate
+
+The reduce aggregate
+```
+$addFields: {
+	nomDuChamps: { $reduce: {
+			input: "$notes",
+			initialValue: { m: 1, s:0 },
+			in: { 
+				m: { $multiply: ["$$value.m", "$$this"] },
+				s: { $sum: ["$$value.s", "$$this"] }
+			}
+		} 
+	}
+}
+```
+
+# Mongoose
+
 ### Mongoose - Cursor
 
 A cursor is usefull for iterate on a queries
@@ -95,29 +139,6 @@ For writting an error
 ```
 return next(new errors.<type of the errors>("message"));
 ```
-
-### Restify - Order of search
-
-Plain route > route with arguments
-```
-1 : server.get('/articles/all', (req, res, next) => {});
-2 : server.get('/articles/:id', (req, res, next) => {});
-```
-> Restify search first in the plain route , so the one without any parameters.
-So if I use '/articles/all', it's always the route 1 that gonna be executed. If two routes have the same method declare, that throw an error.
-
-The order has an importance...If in my file, the route are written in this order
-```
-1 : server.get('/articles/:id1', (req, res, next) => {});
-2 : server.get('/articles/:id2-aze', (req, res, next) => {});
-```
-In this case, the route '/articles/test-az' exists, it's the route 1.
-But if I write them in this order
-```
-1 : server.get('/articles/:id2-aze', (req, res, next) => {});
-2 : server.get('/articles/:id1', (req, res, next) => {});
-```
-The route '/articles/test-az' does not exist
 
 
 

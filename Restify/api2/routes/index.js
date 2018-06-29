@@ -39,9 +39,9 @@ module.exports = function(ctx) {
     	
     	let data = {
     		name: req.params.name,
-    		note: req.params.note,
+    		notes: req.params.notes,
     	}
-    	
+    	console.log(data);
     	user.insertOne(data).then(doc => {
     		res.send(200, doc.ops[0]);
     	}).catch(err => {
@@ -142,13 +142,32 @@ module.exports = function(ctx) {
     	user.aggregate( [
         {
         	$addFields: {
-        		totalNote: { $sum: "$note" },
-        		totalNoteSecond: { $sum: "$note" }
+        		totalNote: { $sum: "$notes" },
+        		totalNoteSecond: { $reduce: {
+        				input: "$notes",
+        				initialValue: { m: 1, s:0 },
+        				in: { 
+        					m: { $multiply: ["$$value.m", "$$this"] },
+        					s: { $sum: ["$$value.s", "$$this"] }
+        				}
+        			} 
+        		},
+        		positif: { $lt: ["$notes",0] }
+        	}
+        },
+        {
+        	$addFields: {
+        		total: {
+        			$sum: ["totalNoteSecond.m","totalNoteSecond.s"]
+        		}
         	}
         }
     	] ).toArray((err,docs) => {
-    		if(err) res.send(500, "Error on articles");
-    		res.send(200, docs);
+    		if(err) {
+    			res.send(500, err);
+    		} else {    			
+    			res.send(200, docs);
+    		}
     	})
     	
     	next();
