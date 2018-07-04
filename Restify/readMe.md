@@ -1,6 +1,6 @@
 # Restify - REST Api
 
-A simple document for compiling all the elements that I wanna keep about Restify.
+A simple document for compiling all the elements that I wanna keep about MongoDB/Restify/Mongoose.
 
 My favorite tools for building an API are
 * MongoDB
