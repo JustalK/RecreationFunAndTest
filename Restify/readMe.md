@@ -98,6 +98,8 @@ $addFields: {
 ```
 
 # Mongoose
+Very nice extension for managing schema and the db 
+> It's impossible to connect to mongodb synchronously so for get ride of the ugly callback, use mongoose
 
 ### Mongoose - Cursor
 
